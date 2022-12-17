@@ -5,30 +5,30 @@ using UnityEngine;
 public class Bird : MonoBehaviour {
 
 	private bool isDead = false;
-	private Rigidbody2D rb;
-	public float upForce = 200f;
+	private Rigidbody2D rb2d;
+	public float upForce;
 	private Animator anim;
 
 	void Start () {
-		rb = GetComponent<Rigidbody2D>();
+		rb2d = GetComponent<Rigidbody2D>();
 		anim = GetComponent<Animator> ();
 	}
 
 	void Update () {
 		if (isDead == false)
 		{
-			if (Input.GetMouseButton(0) || Input.GetKeyDown ("space"))
+			if (Input.GetMouseButton(0))
 			{
-				rb.velocity = Vector2.zero;
-				rb.AddForce (new Vector2 (0, upForce));
 				anim.SetTrigger("Flap");
+				rb2d.velocity = Vector2.zero;
+				rb2d.AddForce(new Vector2(0, upForce));
 			}
 		}
 	}
 
 	void OnCollisionEnter2D()
 	{
-		rb.velocity = Vector2.zero;
+		rb2d.velocity = Vector2.zero;
 		isDead = true;
 		anim.SetTrigger ("Die");
 		GameControl.instance.BirdDied ();
